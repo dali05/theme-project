@@ -10,13 +10,12 @@ sharedMappings.register(
 
 module.exports = {
   output: {
-    uniqueName: "partener1",
-    publicPath: "auto",
-    scriptType: "text/javascript"
+    uniqueName: "auth",
+    publicPath: "auto"
   },
   optimization: {
     runtimeChunk: false
-  },
+  },   
   resolve: {
     alias: {
       ...sharedMappings.getAliases(),
@@ -27,29 +26,32 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-        // For remotes (please adjust)
-         name: "partener1",
-         filename: "remoteEntry.js",
-         exposes: {
-             './TodoListModule': './projects/partener1/src/app/todo-list/todo-list.module',
-         },
+        library: { type: "module" },
 
+        // For remotes (please adjust)
+        // name: "auth",
+        // filename: "remoteEntry.js",
+        // exposes: {
+        //     './Component': './projects/auth/src/app/app.component.ts',
+        // },        
+        
         // For hosts (please adjust)
         // remotes: {
         //     "themeManager": "http://localhost:4200/remoteEntry.js",
-        //     "partener2": "http://localhost:4200/remoteEntry.js",
+        //     "partener1": "http://localhost:4300/remoteEntry.js",
+        //     "partener2": "http://localhost:4400/remoteEntry.js",
 
         // },
 
         shared: share({
-          "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
-          "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
-          "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+          "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
+          "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
+          "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
 
           ...sharedMappings.getDescriptors()
         })
-
+        
     }),
     sharedMappings.getPlugin()
   ],
